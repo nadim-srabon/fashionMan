@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1746683699 source:e:\github\fashionman\main.c
+	<stdio.h>
+	<stdlib.h>
+	"product.h"
+	"customer.h"
+	"order.h"
+	"wishlist.h"
+
+1746683688 e:\github\fashionman\product.h
+
+1746683564 e:\github\fashionman\customer.h
+
+1746682069 e:\github\fashionman\order.h
+
+1746682097 e:\github\fashionman\wishlist.h
+
+1746683350 source:e:\github\fashionman\customer.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"customer.h"
+
+1746682151 source:e:\github\fashionman\order.c
+	<stdio.h>
+	<stdlib.h>
+	"order.h"
+
+1746683115 source:e:\github\fashionman\product.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"product.h"
+
+1746682122 source:e:\github\fashionman\wishlist.c
+	<stdio.h>
+
