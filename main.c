@@ -5,6 +5,8 @@
 #include "order.h"
 #include "wishlist.h"
 
+static int lastProductId = 0;
+
 int main() {
     Product* productRoot = NULL;
     Customer* customerHead = NULL;
@@ -22,12 +24,43 @@ int main() {
         scanf("%d", &choice);
 
         if (choice == 1) {
-            int id, stock;
+            int stock, category, gender, hasMeasurements;
             float price;
-            char tempName[100], tempCategory[100];
-            printf("Enter ID, Name, Category, Price, Stock: ");
-            scanf("%d %s %s %f %d", &id, tempName, tempCategory, &price, &stock);
-            productRoot = addProduct(productRoot, id, tempName, tempCategory, price, stock);
+            char tempName[100];
+            Measurement measurements;
+
+            printf("Enter Product Name: ");
+            scanf("%99s", tempName);
+
+            printf("Available Categories:\n");
+            for (int i = 0; i <= CAT_OTHER; i++) {
+                printf("%d. %s\n", i, categoryToString(i));
+            }
+            printf("Select Category (0-%d): ", CAT_OTHER);
+            scanf("%d", &category);
+
+            printf("Gender (0-Ladies, 1-Gents, 2-Kids, 3-Unisex): ");
+            scanf("%d", &gender);
+
+            printf("Enter Price and Stock: ");
+            scanf("%f %d", &price, &stock);
+
+            printf("Add measurements? (0-No, 1-Yes): ");
+            scanf("%d", &hasMeasurements);
+
+            if (hasMeasurements) {
+                printf("Enter Size (e.g., S, M, L): ");
+                scanf("%9s", measurements.size);
+                printf("Enter Length, Chest, Waist measurements: ");
+                scanf("%f %f %f", &measurements.length, &measurements.chest, &measurements.waist);
+            }
+
+            // Auto-generate ID
+            int id = ++lastProductId;
+
+            productRoot = addProduct(productRoot, id, tempName, category, gender, price, stock,
+                                   hasMeasurements ? &measurements : NULL);
+            printf("Product added with ID: %d\n", id);
         }
         else if (choice == 2) {
             printf("\n--- Product List ---\n");
@@ -71,8 +104,9 @@ int main() {
         }
     }
 
-    // Optional: free dynamically allocated memory (good practice)
-
+    // Free allocated memory (simplified example)
+    // In a real application, you would need proper cleanup functions
+    // for your BST and linked lists
 
     return 0;
 }
