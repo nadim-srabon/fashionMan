@@ -1,36 +1,19 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
+#define MAX_FABRIC_LENGTH 50
+
 typedef enum {
     CAT_SHIRT,
-    CAT_PANTS,
-    CAT_DRESS,
-    CAT_SKIRT,
-    CAT_JACKET,
-    CAT_SHOES,
-    CAT_ACCESSORY,
-    CAT_HANDBAG,
-    CAT_JEWELRY,
-    CAT_WATCH,
-    CAT_SUNGLASSES,
-    CAT_HAT,
-    CAT_SCARF,
-    CAT_TIE,
-    CAT_BELT,
-    CAT_SOCKS,
-    CAT_UNDERWEAR,
-    CAT_SWIMWEAR,
-    CAT_SPORTSWEAR,
-    CAT_COAT,
-    CAT_SWEATER,
-    CAT_JEANS,
-    CAT_SHORTS,
-    CAT_TSHIRT,
-    CAT_BLOUSE,
-    CAT_SUIT,
-    CAT_LEGGINGS,
-    CAT_BOOTS,
-    CAT_SANDALS,
+    CAT_KURTA,
+    CAT_PONGA_BLAZER,
+    CAT_SHERWANI,
+    CAT_PANT,
+    CAT_KAMEEZ,
+    CAT_ANANDALI,
+    CAT_CROWN,
+    CAT_KURDI,
+    CAT_PAIGMA,
     CAT_OTHER
 } ProductCategory;
 
@@ -41,11 +24,42 @@ typedef enum {
     GENDER_UNISEX
 } ProductGender;
 
+// Fabric types from your images
+typedef enum {
+    FAB_BAKSI_PRIMIT_160,
+    FAB_ORBINDO_PRIMIT_150,
+    FAB_JORGET_200,
+    FAB_RAYMOND_COTTON_800,
+    FAB_GRINGA_1000,
+    FAB_ORBINDO_700,
+    FAB_OTHER
+} FabricType;
+
 typedef struct Measurement {
-    char size[10];       // "S", "M", "L", etc.
-    float length;
-    float chest;
-    float waist;
+    char size[10];
+    union {
+        struct {
+            float length;
+            float chest;
+            float waist;
+        };
+        struct {
+            float k_length;
+            float k_shoulder_width;
+            float k_sleeve_length;
+            float k_neckline;
+            float k_armhole;
+        };
+        struct {
+            float s_neck_circumference;
+            float s_chest;
+            float s_shoulder_width;
+            float s_sleeve_length;
+            float s_waist_circumference;
+            float s_shirt_length;
+            float s_cuff_circumference;
+        };
+    };
 } Measurement;
 
 typedef struct Product {
@@ -55,13 +69,16 @@ typedef struct Product {
     ProductGender gender;
     float price;
     int stock;
+    FabricType fabric;
     Measurement measurements;
     int hasMeasurements;
     struct Product *left, *right;
 } Product;
 
+const char* fabricToString(FabricType fabric);
 Product* addProduct(Product* root, int id, const char* name, ProductCategory category,
-                   ProductGender gender, float price, int stock, const Measurement* measurements);
+                   ProductGender gender, float price, int stock, FabricType fabric,
+                   const Measurement* measurements);
 void displayProducts(Product* root);
 Product* searchProduct(Product* root, int id);
 const char* categoryToString(ProductCategory cat);
